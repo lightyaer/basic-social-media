@@ -1,0 +1,26 @@
+{
+  "name": "basic-social-media",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "private": true,
+  "engines": {
+    "node": "12.x",
+    "yarn": "1.22.x"
+  },
+  "scripts": {
+    "client-dev": "yarn workspace client serve",
+    "server-dev": "yarn workspace server dev"
+  },
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "cacheDirectories": [
+    "node_modules",
+    "client/node_modules",
+    "server/node_modules"
+  ],
+  "author": "lightyaer <mmnyed@gmail.com>",
+  "license": "MIT"
+}
