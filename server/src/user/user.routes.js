@@ -10,9 +10,9 @@ const {
 
 router.get('/', getAllUsers);
 
-router.get('/:userId', getUserById);
-
 router.post('/', createUser);
+
+router.get('/:userId', getUserById);
 
 router.post('/friend', addFriend);
 

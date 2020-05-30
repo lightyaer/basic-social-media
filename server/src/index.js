@@ -14,6 +14,12 @@ const PORT = process.env.PORT || 3000;
 
 app.use('/api/user', userRoutes);
 
+app.use((error, req, res, next) => {
+  // log error to error/log file with req context
+  res.status(200).send({ message: 'Something went wrong' });
+  next();
+});
+
 db.sync().then(() => {
   app.listen(PORT, () => {
     console.log(`Server started on port ${PORT}`);

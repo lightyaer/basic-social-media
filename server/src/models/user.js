@@ -1,5 +1,6 @@
 const db = require('../db/sequelize');
 const Sequelize = require('sequelize');
+const sequelizePaginate = require('sequelize-paginate');
 
 const User = db.define('user', {
   firstName: {
@@ -30,6 +31,8 @@ User.belongsToMany(User, {
   through: 'friendship',
   foreignKey: 'FriendId',
 });
+
+sequelizePaginate.paginate(User);
 
 module.exports = {
   User,

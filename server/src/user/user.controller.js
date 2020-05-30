@@ -1,11 +1,24 @@
 const _ = require('lodash');
 const { User } = require('../models/user');
 
+const associateFriends = {
+  include: ['Friends', 'AcceptingFriends'],
+};
+
 module.exports = {
   getAllUsers: async (req, res, next) => {
     try {
-      const allUsers = await User.findAll();
-      return res.status(200).send(allUsers);
+      const page = _.get(req, 'query.page', 1);
+      const paginate = 15;
+
+      const options = {
+        page,
+        paginate,
+      };
+
+      const { docs, pages, total } = await User.paginate(options);
+
+      return res.status(200).send({ docs, pages, total });
     } catch (error) {
       next(error);
     }
@@ -16,9 +29,7 @@ module.exports = {
       if (!userId)
         return res.status(400).send({ msg: 'User is required to get friends' });
 
-      let user = await User.findByPk(userId, {
-        include: ['Friends', 'AcceptingFriends'],
-      });
+      let user = await User.findByPk(userId, associateFriends);
       if (!user) res.status(400).send({ msg: 'User does not exist' });
       user = user.toJSON();
       const friends = _.concat(user.Friends, user.AcceptingFriends);
@@ -46,29 +57,30 @@ module.exports = {
         avatar,
       });
 
-      res.status(200).send({ user });
+      res.status(200).send(user);
     } catch (error) {
       next(error);
     }
   },
   deleteFriend: async (req, res, next) => {
     try {
-      const userId = _.get(req, 'body.userId', null);
-      const friendId = _.get(req, 'body.friendId', null);
-      const requestingUser = User.findAll({
-        where: {
-          id: userId,
-        },
+      const userId = _.get(req, 'query.userId', null);
+      const friendId = _.get(req, 'query.friendId', null);
+
+      const requestingUser = await User.findByPk(userId, {
+        include: ['Friends', 'AcceptingFriends'],
       });
 
-      const acceptingUser = await User.findAll({
-        where: {
-          id: friendId,
-        },
+      const acceptingUser = await User.findByPk(friendId, {
+        include: ['Friends', 'AcceptingFriends'],
       });
 
-      const friendship = await requestingUser.removeFriend(acceptingUser);
-      res.status(200).send(friendship);
+      await requestingUser.removeFriend(acceptingUser);
+
+      await requestingUser.reload();
+      await acceptingUser.reload();
+
+      res.status(200).send([requestingUser, acceptingUser]);
     } catch (error) {
       next(error);
     }
@@ -78,14 +90,18 @@ module.exports = {
       const userId = _.get(req, 'body.userId', null);
       const friendId = _.get(req, 'body.friendId', null);
 
-      const requestingUser = await User.findByPk(userId);
-      const acceptingUser = await User.findByPk(friendId);
-      await requestingUser.addFriend(acceptingUser);
-      const updatedUser = await User.findByPk(userId, {
-        include: ['Friends'],
+      const requestingUser = await User.findByPk(userId, {
+        include: ['Friends', 'AcceptingFriends'],
       });
+      const acceptingUser = await User.findByPk(friendId, {
+        include: ['Friends', 'AcceptingFriends'],
+      });
+      await requestingUser.addFriend(acceptingUser);
 
-      res.status(200).send(updatedUser);
+      await requestingUser.reload();
+      await acceptingUser.reload();
+
+      res.status(200).send([requestingUser, acceptingUser]);
     } catch (error) {
       next(error);
     }
