@@ -1,4 +1,0 @@
-export const CONFIG = Object.freeze({
-  COUNTRIES_API_BASE_URL: process.env.COUNTRIES_API_BASE_URL,
-  COUNTRIES_API_VERSION: process.env.COUNTRIES_API_VERSION
-});

@@ -1,37 +1,33 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated class="glossy">
-      <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          @click="leftDrawerOpen = !leftDrawerOpen"
-          aria-label="Menu"
-          icon="menu"
-        />
+  <v-app>
+    <v-app-bar app dense color="primary" dark>
+      <v-toolbar-title @click="gotoList">Basic Social Media</v-toolbar-title>
+      <v-spacer />
+      <v-btn :disabled="isCurrentRouteUserList" @click="gotoList" text>
+        <span>Go to list</span>
+      </v-btn>
+    </v-app-bar>
 
-        <q-toolbar-title>
-          Quasar App
-        </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
-      </q-toolbar>
-    </q-header>
-
-    <q-page-container>
-      <div>
-        asojdosjdfjsdpf
-      </div>
-    </q-page-container>
-  </q-layout>
+    <v-content>
+      <v-container class="px-4">
+        <router-view></router-view>
+      </v-container>
+    </v-content>
+  </v-app>
 </template>
 
 <script>
 export default {
-  name: 'LayoutDefault',
-  components: {}
+  name: 'App',
+  computed: {
+    isCurrentRouteUserList() {
+      return this.$route.name === 'user';
+    }
+  },
+  methods: {
+    gotoList() {
+      if (this.$route.name !== 'user') this.$router.push({ name: 'user' });
+    }
+  }
 };
 </script>
-
-<style></style>
