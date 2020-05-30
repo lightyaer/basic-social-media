@@ -5,6 +5,15 @@ const associateFriends = {
   include: ['Friends', 'AcceptingFriends'],
 };
 
+const mergeFriends = (user) => {
+  const friends = _.concat(user.Friends, user.AcceptingFriends);
+  const userWithoutFriends = _.omit(user, ['Friends', 'AcceptingFriends']);
+  return {
+    friends,
+    ...userWithoutFriends,
+  };
+};
+
 module.exports = {
   getAllUsers: async (req, res, next) => {
     try {
@@ -29,15 +38,9 @@ module.exports = {
       if (!userId)
         return res.status(400).send({ msg: 'User is required to get friends' });
 
-      let user = await User.findByPk(userId, associateFriends);
+      const user = await User.findByPk(userId, associateFriends);
       if (!user) res.status(400).send({ msg: 'User does not exist' });
-      user = user.toJSON();
-      const friends = _.concat(user.Friends, user.AcceptingFriends);
-      const userWithoutFriends = _.omit(user, ['Friends', 'AcceptingFriends']);
-      const userWithFriends = {
-        friends,
-        ...userWithoutFriends,
-      };
+      const userWithFriends = mergeFriends(user.toJSON());
       return res.status(200).send(userWithFriends);
     } catch (error) {
       next(error);
@@ -80,7 +83,10 @@ module.exports = {
       await requestingUser.reload();
       await acceptingUser.reload();
 
-      res.status(200).send([requestingUser, acceptingUser]);
+      const requestingUserMerged = mergeFriends(requestingUser.toJSON());
+      const acceptingUserMerged = mergeFriends(acceptingUser.toJSON());
+
+      res.status(200).send([requestingUserMerged, acceptingUserMerged]);
     } catch (error) {
       next(error);
     }
@@ -101,7 +107,10 @@ module.exports = {
       await requestingUser.reload();
       await acceptingUser.reload();
 
-      res.status(200).send([requestingUser, acceptingUser]);
+      const requestingUserMerged = mergeFriends(requestingUser.toJSON());
+      const acceptingUserMerged = mergeFriends(acceptingUser.toJSON());
+
+      res.status(200).send([requestingUserMerged, acceptingUserMerged]);
     } catch (error) {
       next(error);
     }
