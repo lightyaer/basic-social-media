@@ -36,6 +36,10 @@ $ yarn run client-dev
 ## Postman
 - Included BasicSocialMedia.postman_collection.json, which can be imported into postman
 
+## Tests
+- Frontend demo tests are in place, need configuration for mocha to search test files as desired
+- Backend demo tests are in place, need .env configuration
+
 ## Checklist
 
 - [x] Create client folder and initialize a Vue Project
