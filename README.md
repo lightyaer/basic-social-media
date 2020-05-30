@@ -33,6 +33,9 @@ $ yarn run client-dev
     yarn run seed-without-friends
   ```
 
+## Postman
+- Included BasicSocialMedia.postman_collection.json, which can be imported into postman
+
 ## Checklist
 
 - [x] Create client folder and initialize a Vue Project
