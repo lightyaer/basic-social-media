@@ -6,10 +6,13 @@
   "private": true,
   "scripts": {
     "dev": "nodemon src/index.js",
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "sequelize": "npx sequelize-cli",
+    "seed-data": "npx sequelize-cli db:seed:all"
   },
   "dependencies": {
     "dotenv": "8.2.0",
+    "cors": "2.8.5",
     "express": "4.17.1",
     "lodash": "4.17.15",
     "moment": "2.26.0",
@@ -20,7 +23,7 @@
   "author": "lightyaer <mmnyed@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "eslint": "^7.1.0",
-    "nodemon": "^2.0.4"
+    "eslint": "7.1.0",
+    "nodemon": "2.0.4"
   }
 }
