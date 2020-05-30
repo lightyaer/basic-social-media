@@ -4,6 +4,7 @@
     :headers="headers"
     :items="users"
     :loading="areFriendsLoading"
+    no-data-text="User doesn't have any friends, Use Postman to add friends"
   />
 </template>
 

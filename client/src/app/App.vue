@@ -1,7 +1,10 @@
 <template>
   <v-app>
-    <v-app-bar app dense color="primary" dark>
-      <v-toolbar-title @click="gotoList">Basic Social Media</v-toolbar-title>
+    <v-app-bar app dense dark>
+      <v-btn small text>
+        <v-toolbar-title @click="gotoList">Basic Social Media</v-toolbar-title>
+      </v-btn>
+
       <v-spacer />
       <v-btn :disabled="isCurrentRouteUserList" @click="gotoList" text>
         <span>Go to list</span>

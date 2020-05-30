@@ -1,16 +1,44 @@
-import _ from 'lodash';
-
 export default {
   computed: {
     headers() {
-      const user = _.head(this.users);
-      const keys = _.orderBy(_.keys(_.omit(user, ['id', 'updatedAt'])));
-      return _.map(keys, header => ({
-        text: _.startCase(header),
-        align: 'start',
-        sortable: true,
-        value: header
-      }));
+      return [
+        {
+          text: 'Id',
+          align: 'start',
+          sortable: true,
+          value: 'id'
+        },
+        {
+          text: 'Avatar',
+          align: 'start',
+          sortable: false,
+          value: 'avatar'
+        },
+        {
+          text: 'First Name',
+          align: 'start',
+          sortable: true,
+          value: 'firstName'
+        },
+        {
+          text: 'Last Name',
+          align: 'start',
+          sortable: true,
+          value: 'lastName'
+        },
+        {
+          text: 'Username',
+          align: 'start',
+          sortable: true,
+          value: 'username'
+        },
+        {
+          text: 'Created At',
+          align: 'start',
+          sortable: true,
+          value: 'createdAt'
+        }
+      ];
     }
   }
 };

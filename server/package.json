@@ -8,7 +8,9 @@
     "dev": "nodemon src/index.js",
     "start": "node src/index.js",
     "sequelize": "npx sequelize-cli",
-    "seed-data": "npx sequelize-cli db:seed:all"
+    "seed-data": "node src/seeders/seedData.js",
+    "drop-db": "node src/seeders/dropDb.js",
+    "seed-without-friends": "node src/seeders/seedWithoutFriends.js"
   },
   "dependencies": {
     "dotenv": "8.2.0",
@@ -18,7 +20,8 @@
     "moment": "2.26.0",
     "pg": "8.2.1",
     "pg-hstore": "2.3.3",
-    "sequelize": "5.21.11"
+    "sequelize": "5.21.11",
+    "sequelize-paginate": "1.1.6"
   },
   "author": "lightyaer <mmnyed@gmail.com>",
   "license": "MIT",

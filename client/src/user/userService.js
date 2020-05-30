@@ -13,10 +13,13 @@ const userAxiosInstance = axios.create({
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 
-export const getAllUsersApi = () => {
+export const getAllUsersApi = (page = 1) => {
   return userAxiosInstance.request({
     method: 'get',
-    url: `${SERVER_URL}${USER_API_URL}`
+    url: `${SERVER_URL}${USER_API_URL}`,
+    params: {
+      page
+    }
   });
 };
 

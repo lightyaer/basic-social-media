@@ -2,15 +2,18 @@
   <BsmDataTable
     @click:row="onClickUser"
     :headers="headers"
+    :options.sync="options"
+    :server-items-length="totalUsers"
     :items="items"
+    no-data-text="No users"
     :loading="areUsersLoading"
   />
 </template>
 
 <script>
 import moment from 'moment';
-import { mapGetters } from 'vuex';
-import { allUsersGetter } from '../userGetterTypes';
+import { mapGetters, mapActions } from 'vuex';
+import { allUsersGetter, getTotalDocs } from '../userGetterTypes';
 import { getAllUsersAction } from '../userActionTypes';
 import { isLoading } from '../../loading/loadingGetterTypes';
 import BsmDataTable from '../../components/BsmDataTable';
@@ -21,12 +24,29 @@ export default {
   components: {
     BsmDataTable
   },
+  watch: {
+    options: {
+      handler({ page }) {
+        this.getAllUsersAction({ page });
+      },
+      deep: true
+    }
+  },
   mixins: [headerMixin],
+  data() {
+    return {
+      options: {}
+    };
+  },
   computed: {
     ...mapGetters({
       allUsersGetter,
-      isLoading
+      isLoading,
+      getTotalDocs
     }),
+    totalUsers() {
+      return this.getTotalDocs;
+    },
     users() {
       return this.allUsersGetter();
     },
@@ -38,6 +58,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      getAllUsersAction
+    }),
     getDateString(date) {
       return moment(date).fromNow();
     },
