@@ -12,7 +12,6 @@
     "client-dev": "yarn workspace client serve",
     "server-dev": "yarn workspace server dev",
     "seed-data": "yarn workspace server seed-data",
-    "drop-db": "yarn workspace server drop-db",
     "seed-without-friends": "yarn workspace server seed-without-friends"
   },
   "workspaces": [

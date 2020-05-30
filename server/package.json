@@ -9,7 +9,6 @@
     "start": "node src/index.js",
     "sequelize": "npx sequelize-cli",
     "seed-data": "node src/seeders/seedData.js",
-    "drop-db": "node src/seeders/dropDb.js",
     "seed-without-friends": "node src/seeders/seedWithoutFriends.js"
   },
   "dependencies": {
